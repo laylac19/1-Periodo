@@ -1,0 +1,58 @@
+Aluno: Layla Couto
+Trabalho prático: quantificadores em TPTP
+
+%Definir que no sistema de arquivos há pastas
+fof (pasta, axiom, (
+	![X] : (original(X) | ?[X]: (pasta(X)))
+)).
+
+%Definir que no sistema de arquivos há arquivos
+fof (aquivo, axiom, (
+	![X] : (original(X) | ?[X]: (arquivo(X)))
+)).
+
+%Classificação de categorias do sistema de arquivos como pastas ou arquivos e não são as duas categorias ao mesmo tempo
+fof (classificacao, axiom, (
+	![X] : (pasta(X) | arquivo(X))
+)).
+
+%Unicidade Classificação: Não são as duas categorias ao mesmo tempo
+fof (classOrig, axiom, (
+	~?[X] : (pasta(X) & arquivo(X))
+)).
+
+%Definição de localização no sistema de arquivos
+fof (localizacao, axiom, (
+	![X,Y] : ((pasta(X,Y) | arquivo(X,Y)) <=> localizacao(X,Y))
+)).
+
+%Nenhum arquivo ou pasta está localizada nela mesmo
+fof (irreLoc, axiom, (
+	~?[X,Y] : (localizacao(X,X))
+)).
+
+
+%Pasta/Arquivo raiz: Existe um subconjunto de pastas ou arquivos no sistema que são originais
+fof (original, axiom, (
+	![X] : (original(X) <=>~?[X] : (pasta(X) | arquivo(X)))
+)).
+
+%Assimetria Localização: evitar que ocorra de uma pasta X estar contida na pasta Y e a pasta Y estar contida na pasta X.
+fof (assimetriaLoc, axiom, (
+	~?[X,Y] : (localizacao(X,Y) & localizacao(Y,X))
+)).
+
+%Definição de ancestralidade do sistema
+fof (defAncestral, axiom, (
+	![X,Y] : (localizacao(X,Y) => ancestral(X,Y))
+)).
+
+%Regra de Recursão de ancestralidade do sistema
+fof (recAncestral, axiom, (
+	![X,Y,Z] : ((localizacao(X,Y) & ancestral(Z,X)) => ancestral(Z,Y))
+)).
+
+%Assimetria Ancestralidade do sistema
+fof (assimetriaAnces, axiom, (
+	~?[X,Y] : (ancestral(X,Y) & ancestral(Y,X))
+)).

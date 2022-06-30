@@ -1,0 +1,95 @@
+Atividade Assembly
+
+Atividade 1)
+ldi r16, 5
+ldi r17, 5
+ldi r18, 3
+
+mov r19, r17
+add r19, r18
+add r19, r16
+
+
+Atividade 2)
+ldi r21, 10
+ldi r21, 2
+
+ldi r17, 10
+ldi r18, 5
+
+mov r19, r17
+add r19, r18
+
+ldi r16, 35
+
+cp r19, r16
+
+brsh x
+
+add r19, r19
+mov r20, r19
+jmp y
+
+x:
+mul r19, r22
+mov r20, r19
+y: 
+
+
+Atividade 3)
+.def x = r19
+.def r = r20
+
+ldi x, 1
+
+ldi r17, 4 
+ldi r18, 5 
+
+inicio_loop:
+
+inc x
+add r21, r17
+cpi x, 6
+brlo inicio_loop
+fim_loop:
+mov r20, r21
+
+
+Atividade 4)
+.def N = r16
+.def i = r17
+.def temp = r18
+.def x = r20
+.def m = r21
+
+ldi N, 6
+ldi x, 10
+ldi m, 2
+
+ldi r31, $1
+ldi r30, $00
+
+inicio_loop:
+
+st Z+, x
+inc x
+cpi x, 16
+
+brlo inicio_loop
+fim_loop:
+
+ldi r31, $1
+ldi r30, $00
+
+ldi i, 0
+
+iloop:
+
+ld temp, Z
+add temp, m
+inc i
+st Z+, temp
+cp i, N
+
+brlo iloop
+floop:
